@@ -1,7 +1,7 @@
 module Cashier
 
   CACHE_KEY = 'cashier-tags'
-  
+
   class << self
 
     # Public: whether the module will perform caching or not. this is being set in the application layer .perform_caching configuration
@@ -41,13 +41,13 @@ module Cashier
     end
 
     # Public: expire tags. expiring the keys 'assigned' to the tags you expire and removes the tags from the tags list
-    # 
+    #
     # tags - array of tags to expire.
-    # 
+    #
     # Examples
     #
     #   Cashier.expire('tag1', 'tag2')
-    # 
+    #
     def expire(*tags)
       return unless perform_caching?
 
@@ -124,7 +124,7 @@ module Cashier
     #
     #   Cashier.adapter
     #   # => Cashier::Adapters::CacheStore
-    # 
+    #
     #   Cashier.adapter
     #   # => Cashier::Adapters::RedisStore
     #
