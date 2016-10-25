@@ -69,6 +69,16 @@ module Cashier
         tags.inject([]) { |arry, tag| arry += Rails.cache.fetch(tag) }.compact
       end
 
+      def self.downcase_tag(tag)
+        cashier_tags = Rails.cache.fetch(Cashier::CACHE_KEY)
+        cashier_tags.delete(tag)
+        cashier_tags.push(tag.downcase)
+        Rails.cache.write(Cashier::CACHE_KEY, cashier_tags)
+        keys = Rails.cache.fetch(tag)
+        Rails.cache.delete(tag)
+        Rails.cache.write(tag.downcase, keys)
+      end
+
       private
 
       def self.page_path_tag(tag)

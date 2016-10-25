@@ -28,4 +28,17 @@ describe ApplicationController do
     controller.write_fragment('key', 'content', :tag => lambda { |c| 'tag' })
   end
 
+  it "should downcase incoming tags" do
+    controller.write_fragment('key', 'content', :tag => 'NEWTAG')
+    expect(Cashier.tags).to include('newtag')
+  end
+
+  it "should gradually downcase tags" do
+    Cashier.adapter.store_fragment_in_tag('foo', 'THETAG')
+    Cashier.adapter.store_tags(['THETAG'])
+    Cashier.keys_for('THETAG')
+    expect(Cashier.tags).to_not include('THETAG')
+    expect(Cashier.tags).to include('thetag')
+  end
+
 end

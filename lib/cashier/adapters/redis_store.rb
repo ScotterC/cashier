@@ -63,6 +63,12 @@ module Cashier
         tags.inject([]) { |arry, tag| arry += get_fragments_for_tag(tag) }.compact
       end
 
+      def self.downcase_tag(tag)
+        redis.srem(Cashier::CACHE_KEY, tag)
+        redis.sadd(Cashier::CACHE_KEY, tag.downcase)
+        redis.rename(tag, tag.downcase)
+      end
+
       private
 
       def self.page_path_tag(tag)
